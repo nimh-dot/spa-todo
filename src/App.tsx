@@ -1,10 +1,20 @@
 import "./App.css"
+import HomePage from "./features/HomePage/HomePage"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import LoginPage from "./features/LoginPage/LoginPage"
+import SignUpPage from "./features/SignUpPage/SignUpPage"
 
 const App = () => {
   return (
-    <div>
-          SPA ToDo
-    </div>
+    
+    <BrowserRouter>
+          {/* SPA ToDo */}
+          <Routes>
+            <Route path="/" element={<HomePage/>} />
+            <Route path="/login" element={<LoginPage/>} />
+            <Route path="/register" element={<SignUpPage/>} />
+          </Routes>
+    </BrowserRouter>
   )
 }
 

@@ -1,0 +1,9 @@
+.signUpPage{
+    display: flex;
+    flex-direction: column;
+}
+
+.text{
+    display: inline-block;
+    margin: 1rem 0;
+}
