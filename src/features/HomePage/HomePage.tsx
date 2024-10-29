@@ -6,7 +6,7 @@ const HomePage = () => {
     <div  className={styles.homePage}>
 
         Home Page
-        <Link to="/login">Sign Ii Page</Link>
+        <Link to="/login">Sign In Page</Link>
         <Link to="/register">Sign Up Page</Link>
     </div>
   )

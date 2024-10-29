@@ -1,15 +1,26 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './LoginPage.module.css'
-import InputEmail from '../../components/InputEmail/InputEmail'
-import InputPassword from '../../components/InputPassword/InputPassword'
 import SubmitButton from '../../components/SubmitButton/SubmitButton'
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const LoginPage = () => {
   const emailRef = useRef(null)
   const passRef = useRef(null)
 
   const handleLogin = () => {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, emailRef?.current?.value, passRef?.current?.value)
+      .then((userCredential) => {
+        console.log(userCredential)
+        // Signed in 
+        // const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      })
     console.log('click create account')
     console.log(emailRef?.current?.value)
     console.log(passRef?.current?.value)
