@@ -49,9 +49,8 @@ const LoginPage = () => {
               ref={passRef}
               placeholder='Enter your password'
             />
-
-          <SubmitButton title='Enter' handleClick={handleLogin}/>
         </form>
+        <SubmitButton title='Enter' handleClick={handleLogin}/>
         <span className={styles.text}>Please, create an account</span> 
         <Link to="/register"><button>Create account</button></Link>
     </div>

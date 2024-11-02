@@ -7,11 +7,10 @@ import SignUpPage from "./features/SignUpPage/SignUpPage"
 const App = () => {
 
   return (
-    
     <BrowserRouter>
           {/* SPA ToDo */}
           <Routes>
-            <Route path="/" element={<SignUpPage/>} />
+            <Route path="/" element={<HomePage/>} />
             <Route path="/login" element={<LoginPage/>} />
             <Route path="/register" element={<SignUpPage/>} />
           </Routes>

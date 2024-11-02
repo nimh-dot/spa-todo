@@ -1,35 +1,34 @@
-import { Link } from 'react-router-dom'
-import styles from './SignUpPage.module.css'
-import SubmitButton from '../../components/SubmitButton/SubmitButton'
+import { Link, useNavigate } from 'react-router-dom'
 import { useRef } from 'react'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
 import { useAppDispatch } from '../../app/hooks'
+import { setUser } from '../../app/userSlice'
+import SubmitButton from '../../components/SubmitButton/SubmitButton'
+import styles from './SignUpPage.module.css'
 
 const SignUpPage = () => {
   const emailRef = useRef(null)
   const passRef = useRef(null)
   const dispatch = useAppDispatch()
-
+  const navigate = useNavigate()
 
   const handleCreateAccount = () => {
     const auth = getAuth();
-    console.log(auth)
 
     createUserWithEmailAndPassword(auth, emailRef?.current?.value, passRef?.current?.value)
-      .then((userCredential) => {
-        console.log(userCredential)
-        // Signed up 
-        // const user = userCredential.user;
-        // ...
+      .then(({user}) => {
+        dispatch(setUser({
+          email: user.email,
+          id: user.uid,
+          token: user.accessToken,
+        }))
+        navigate("/")
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        // ..
+        console.log('My error message', errorCode, errorMessage)
       }) 
-    console.log('click create account')
-    console.log(emailRef?.current?.value)
-    console.log(passRef?.current?.value)
   }
 
   return (
@@ -53,10 +52,10 @@ const SignUpPage = () => {
             id='password' 
             placeholder='Enter your password'
           />
-          <SubmitButton title='Create account' handleClick={handleCreateAccount}/>
         </form>
+        <SubmitButton title='Create account' handleClick={handleCreateAccount}/>
 
-        <span className={styles.text}>All ready have account?</span> 
+        <span className={styles.text}>Already have account?</span> 
         <Link to="/login"><button>Sign in</button></Link>
     </div>
   )
