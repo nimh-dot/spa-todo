@@ -13,6 +13,7 @@ test("App should have correct initial render", () => {
     )
     
     // screen.debug()
+    expect(screen).toMatchSnapshot()
 
     // The app should be rendered correctly
     expect(screen.getByText(/home page/i)).toBeInTheDocument()
