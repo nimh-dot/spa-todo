@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import styles from './HomePage.module.css'
 import { useAppDispatch, useAuth } from '../../app/hooks'
 import { useEffect, useRef, useState } from 'react'
+import Footer from '../../layout/footer/footer'
 
 const HomePage = () => {
   const [isVis, setIsVis] = useState(false)
@@ -19,7 +20,7 @@ const HomePage = () => {
 
   return (
     <div  className={styles.homePage}>
-
+      <div className={styles.content}>
         Home Page
         { !isAuth 
           ? <Link to="/register">Sign Up Page</Link> 
@@ -29,6 +30,8 @@ const HomePage = () => {
         {/* {isVis && <input type='text' ref={refInput => refInput?.focus()}/>} */}
         {isVis && <input type='text' ref={refInput}/>}
         {/* {isVis && <input type='text' autoFocus/>} */}
+      </div>
+      <Footer />
     </div>
   )
 }
