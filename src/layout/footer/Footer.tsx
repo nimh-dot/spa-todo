@@ -12,7 +12,7 @@ const Footer = () => {
         </Link>
       </div>
       <div className={styles.footer__social}>
-        <a href="https://www.facebook.com/">
+        <a href="https://t.me/mitcham_il">
           <img src={icon_telegram} alt='Icon telegram' />
         </a>
       </div>
