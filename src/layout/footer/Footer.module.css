@@ -1,0 +1,23 @@
+.footer{
+    min-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: auto;
+}
+
+.footer__social{
+
+}
+
+.footer__logo{
+    display: inline-block;
+    padding: .5rem;
+}
+
+.footer__copyright{
+    display: inline-block;
+    padding: .5rem;
+}
