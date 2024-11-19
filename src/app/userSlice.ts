@@ -3,7 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit"
 
 type TUserState = {
     email: string | null,
-    id: number | null,
+    id: string | number | null,
     token: string | null,
 }
 
@@ -17,8 +17,7 @@ export const userSlice = createAppSlice({
     name: 'user',
     initialState,
     reducers: create => ({
-        setUser: create.reducer(
-        (state, action: PayloadAction<any>) => { // !! remove type "any"
+        setUser: create.reducer((state, action: PayloadAction<TUserState>) => {
             state.email = action.payload.email
             state.id = action.payload.id
             state.token = action.payload.token
