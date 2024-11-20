@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styles from './LoginPage.module.css'
 import SubmitButton from '../../components/SubmitButton/SubmitButton'
@@ -10,12 +10,16 @@ import { setUser } from '../../app/userSlice'
 const LoginPage = () => {
   const emailRef = useRef(null)
   const passRef = useRef(null)
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
   // const isAuth = useAuth()
 
   const handleLogin = () => {
     const auth = getAuth();
+    setLoading(true);
+    setError(false)
     signInWithEmailAndPassword(auth, emailRef?.current?.value, passRef?.current?.value)
       .then((userCredential) => {
         // console.log('successful login: ', userCredential)
@@ -28,8 +32,11 @@ const LoginPage = () => {
         navigate("/")
       })
       .catch((error) => {
+        console.log(error)
+        setError(error.message)
         const errorCode = error.code;
         const errorMessage = error.message;
+        setLoading(false)
       })
     // console.log('click login')
     // console.log(emailRef?.current?.value)
@@ -68,7 +75,9 @@ const LoginPage = () => {
               onKeyDown ={(e) => {handleKeyPress(e)}}
             />
         </form>
-        <SubmitButton title='Enter' handleClick={handleLogin}/>
+        <SubmitButton title='Login' handleClick={handleLogin}/>
+        {loading && <p>Checking...</p>}
+        {error && <p>{error}</p>}
         <span className={styles.text}>Please, create an account</span> 
         <Link to="/register"><button>Create account</button></Link>
     </div>
