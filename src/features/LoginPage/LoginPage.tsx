@@ -1,34 +1,57 @@
-import { useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from './LoginPage.module.css'
 import SubmitButton from '../../components/SubmitButton/SubmitButton'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useAppDispatch, useAuth } from '../../app/hooks';
+import { setUser } from '../../app/userSlice'
+
 
 const LoginPage = () => {
   const emailRef = useRef(null)
   const passRef = useRef(null)
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+  // const isAuth = useAuth()
 
   const handleLogin = () => {
     const auth = getAuth();
+    setLoading(true);
+    setError(false)
     signInWithEmailAndPassword(auth, emailRef?.current?.value, passRef?.current?.value)
       .then((userCredential) => {
-        console.log(userCredential)
-        // Signed in 
-        // const user = userCredential.user;
-        // ...
+        // console.log('successful login: ', userCredential)
+        dispatch(setUser({
+          email: userCredential?.user?.email,
+          id: userCredential?.user?.uid,
+          token: userCredential?.user?.accessToken,
+        }))
+        // console.log(isAuth)
+        navigate("/")
       })
       .catch((error) => {
+        console.log(error)
+        setError(error.message)
         const errorCode = error.code;
         const errorMessage = error.message;
+        setLoading(false)
       })
-    console.log('click create account')
-    console.log(emailRef?.current?.value)
-    console.log(passRef?.current?.value)
+    // console.log('click login')
+    // console.log(emailRef?.current?.value)
+    // console.log(passRef?.current?.value)
+  }
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleLogin()
+    }
   }
 
   return (
     <div className={styles.loginPage}>
-        <h1>Sing In Page</h1>
+        <h1>Login Page</h1>
         <form className={styles.form}>
           
           <label htmlFor="user">
@@ -47,10 +70,14 @@ const LoginPage = () => {
           <input 
               type="password" 
               ref={passRef}
+              id='password'
               placeholder='Enter your password'
+              onKeyDown ={(e) => {handleKeyPress(e)}}
             />
         </form>
-        <SubmitButton title='Enter' handleClick={handleLogin}/>
+        <SubmitButton title='Login' handleClick={handleLogin}/>
+        {loading && <p>Checking...</p>}
+        {error && <p>{error}</p>}
         <span className={styles.text}>Please, create an account</span> 
         <Link to="/register"><button>Create account</button></Link>
     </div>
